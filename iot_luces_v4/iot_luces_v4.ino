@@ -19,6 +19,7 @@ struct Config {
   char dns1[16];
   char dns2[16];
   uint8_t iot_enable;
+  char iot_name[64];
   char iot_key[64];
 };
 
@@ -40,7 +41,7 @@ bool apMode = false;
 
 // -------------------- EEPROM --------------------
 void saveConfig() {
-  config.magic = 0xABCC; // valor arbitrario para indicar config válida
+  config.magic = 0xABCD; // valor arbitrario para indicar config válida
   EEPROM.put(0, config);
   EEPROM.commit();
 }
@@ -48,7 +49,7 @@ void saveConfig() {
 
 void loadConfig() {
   EEPROM.get(0, config);
-  if (config.magic != 0xABCC) {  
+  if (config.magic != 0xABCD) {  
     Serial.println("EEPROM no inicializada o datos inválidos. Cargando valores por defecto.");
 
     strncpy(config.ssid, "TuSSID", sizeof(config.ssid));
@@ -60,7 +61,8 @@ void loadConfig() {
     strncpy(config.dns1, "8.8.8.8", sizeof(config.dns1));
     strncpy(config.dns2, "8.8.4.4", sizeof(config.dns2));
     config.iot_enable = 2;
-    strncpy(config.iot_key, "key", sizeof(config.iot_key));
+    strncpy(config.iot_name, "device login name", sizeof(config.iot_name));
+    strncpy(config.iot_key, "device key", sizeof(config.iot_key));
 
     // Guarda esta configuración por defecto en EEPROM
     saveConfig();
@@ -200,6 +202,7 @@ void handleConfigPage() {
 
   function toggleIotEnable() {
     const isChecked = document.getElementById('iot_enable').checked;
+    document.getElementById('iotname').disabled = !isChecked;
     document.getElementById('iotkey').disabled = !isChecked;
   }
 
@@ -235,6 +238,8 @@ void handleConfigPage() {
           <label>Habilitar IoT</label>
           <input type="checkbox" name="iot_enable" id="iot_enable" onchange="toggleIotEnable()" )====" + String(config.iot_enable == 1 ? "checked" : "") + R"====(>
         </div>
+        <label>IoT device name:</label>
+<input name="iotname" id="iotname" value=")====" + String(config.iot_name) + R"====(">
 
         <label>IoT Token:</label>
         <input name="iotkey" id="iotkey" value=")====" + String(config.iot_key) + R"====(">
@@ -261,6 +266,7 @@ void handleSaveConfig() {
   strncpy(config.dns1, server.arg("dns1").c_str(), sizeof(config.dns1));
   strncpy(config.dns2, server.arg("dns2").c_str(), sizeof(config.dns2));
   config.iot_enable = (server.hasArg("iot_enable") && server.arg("iot_enable") == "on") ? 1 : 2;
+  strncpy(config.iot_name, server.arg("iotname").c_str(), sizeof(config.iot_name));
   strncpy(config.iot_key, server.arg("iotkey").c_str(), sizeof(config.iot_key));
   saveConfig();
   server.send(200, "text/html", "<h3>Guardado. Reinicia el dispositivo.</h3>");
