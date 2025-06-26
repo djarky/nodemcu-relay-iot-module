@@ -1,5 +1,5 @@
 # nodemcu-relay-iot-module
-friendly usage and config nodemcu to conect lights offine (local ip) and online ( arduino cluoud )
+friendly usage and config nodemcu to conect lights offine (local ip) and online ( arduino cluoud / Blynk IoT)
 
 - upload code via arduinoide
 - conect wifi to ESP8266config
