@@ -1,4 +1,4 @@
-![concept pcb 1](esp12e_Relay/ESp 12relay.png)
+![concept pcb 1]([esp12e_Relay/ESp 12relay.png](https://raw.githubusercontent.com/djarky/nodemcu-relay-iot-module/refs/heads/main/esp12e_Relay/ESp%2012relay.png))
 
 # nodemcu-relay-iot-module
 friendly usage and config nodemcu to conect lights offine (local ip) and online ( arduino cluoud / Blynk IoT)
