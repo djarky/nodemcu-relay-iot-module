@@ -10,6 +10,7 @@ friendly usage and config nodemcu to conect lights offine (local ip) and online 
 - configuration page ip/config http://192.168.4.1/config
 - help http://192.168.4.1/help
 
+![cnf ](config.png)
 
 if use arduino cloud (not recomended ) flash iot_luces_v4.ino 
 -
